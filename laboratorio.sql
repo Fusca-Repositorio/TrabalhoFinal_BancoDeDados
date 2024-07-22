@@ -43,7 +43,7 @@ CREATE TABLE pessoa(
   foreign key (cpfresponsavel) references pessoa(cpf)
 );
 
-CREATE_TABLE exame(
+CREATE TABLE exame(
   codexame INTEGER,
   cpfpaciente NUMERIC(9)not null, 
   cpfprofissionalresponsavel NUMERIC(9) not null,
