@@ -13,7 +13,7 @@ CREATE TABLE departamento(
   coddepartamento INTEGER,
   nome VARCHAR(30) not null,
   cpfgerente NUMERIC(9) not null, 
-  primary key (coddepartamento), 
+  primary key (coddepartamento)
 );
 
 CREATE TABLE funcionario(
@@ -54,5 +54,5 @@ CREATE TABLE exame(
   primary key(codexame),
   foreign key (cpfpaciente) references pessoa(cpf), 
   foreign key (cpfprofissionalresponsavel) references funcionario(cpf),
-  foreign key (codtipoexame) references tipoexame(codtipoexame)
+  foreign key (codtipoexame) references tipo_exame(codtipoexame)
 );
