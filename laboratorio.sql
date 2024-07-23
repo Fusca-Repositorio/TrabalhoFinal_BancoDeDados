@@ -1,3 +1,4 @@
+drop schema if exists laboratorio;
 CREATE SCHEMA laboratorio;
 
 use laboratorio;
@@ -28,9 +29,6 @@ CREATE TABLE funcionario(
   primary key (cpf),
   foreign key (coddepartamento) references departamento(coddepartamento)
 );
-
-alter table departamento 
- add constraint depemp foreign key (cpfgerente) references funcionario(cpf);
 
 CREATE TABLE pessoa(
   cpf NUMERIC(9) not null,
