@@ -36,31 +36,37 @@ INSERT INTO pessoa (cpf, nome, datanascimento, cpfresponsavel, sexo, telefone) V
 ('12345678914', 'Fernanda Welter', '2009-03-04', 12345678921, 'F', ''),
 ('12345678915', 'Enzo Ferrari', '2005-05-07', null, 'M', '11117777');
 
-INSERT INTO exame (codexame, cpfpaciente, cpfprofissionalresponsavel, datarealizacao, dataestimadaentrega, codtipoexame, descricaoresultado) VALUES
+INSERT INTO exame (codexame, cpfpaciente, cpfprofissionalresponsavel, datarealizacao, dataentrega, codtipoexame, descricaoresultado) VALUES
 (1, '12345678910', '12345678904', '2024-07-18', '2024-07-23', 6,  'Presença de parasitas'),
 (2, '12345678911', '12345678908', '2024-07-18', '2024-07-24', 6,  'Presença de parasitas'), 
 (3, '12345678912', '12345678907', '2024-07-18', '2024-07-22', 4, 'Níveis normais'),
-(4, '12345678913',  '12345678906', '2024-07-19', '2024-07-29', 1, 'Baixo número de plaquetas e glóbulos brancos'),
+(4, '12345678913',  '12345678906', '2024-07-19', '2024-07-24', 1, 'Baixo número de plaquetas e glóbulos brancos'),
 (5, '12345678914', '12345678901', '2024-07-19',  '2024-07-25', 1, 'Níveis normais'),
-(6, '12345678915',  '12345678909', '2024-07-22', '2024-07-29', 5, 'Níveis normais' );
+(6, '12345678915',  '12345678909', '2024-07-22', '2024-07-23', 5, 'Níveis normais'),
+(7, '12345678914',  '12345678909', '2024-07-15', '2024-07-24', 5, 'Níveis normais'),
+(8, '12345678911',  '12345678909', '2024-07-25', null, 5, null);
 
-select cpf, nome, dataestimadaentrega as dataentrega
+------inner join -----
+-- apresenta os exames que já estão prontos
+select cpf, nome, dataentrega as dataentrega
 from pessoa p
 inner join exame e on p.cpf = e.cpfpaciente
-where e.dataestimadaentrega < curdate();
+where e.dataentrega is not null;
 
-select nome, cpf, telefone from pessoa p where
-cpf = (select cpf from pessoa where cpfresponsavel is not null);
-
-select f.nome as nomefuncionario, te.nome as tipoexame, count(*) contador
+------inner join, group by e having ------
+-- apresenta os funcionarios que já estão responsaveis por mais de 2 exames do mesmo tipo
+select f.nome as nomefuncionario, te.nome as tipoexame, count(*) numeroexames
 from exame e inner join funcionario f on f.cpf = e.cpfprofissionalresponsavel
 inner join tipo_exame te on te.codtipoexame = e.codtipoexame
 group by e.cpfprofissionalresponsavel, te.nome
 having count(*) > 2;
 
+-----subconsulta--------
+--apresenta os indivíduos cujos exames podem ser buscados apenas pelo responsavel
+select nome, cpf, cpfresponsavel from pessoa p where
+cpf IN (select cpf from pessoa where cpfresponsavel is not null);
 
 -- juncao externa
-
 select p.nome from pessoa p left outer join exame e on p.cpf = e.cpfpaciente
 where e.dataestimadaentrega > curdate();
 
