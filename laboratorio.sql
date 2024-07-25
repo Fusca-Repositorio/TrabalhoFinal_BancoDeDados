@@ -13,12 +13,12 @@ CREATE TABLE tipo_exame(
 CREATE TABLE departamento(
   coddepartamento INTEGER,
   nome VARCHAR(30) not null,
-  cpfgerente NUMERIC(9) not null, 
+  cpfgerente CHAR(11) not null, 
   primary key (coddepartamento)
 );
 
 CREATE TABLE funcionario(
-  cpf NUMERIC(9) not null,
+  cpf CHAR(11) not null,
   nome VARCHAR(200) not null,
   datanascimento DATE,
   cargo VARCHAR(50) not null,
@@ -31,10 +31,10 @@ CREATE TABLE funcionario(
 );
 
 CREATE TABLE pessoa(
-  cpf NUMERIC(9) not null,
+  cpf CHAR(11) not null,
   nome VARCHAR(200) not null,
   datanascimento DATE,
-  cpfresponsavel numeric(9),
+  cpfresponsavel CHAR(11),
   sexo CHAR(1) not null,
   telefone VARCHAR(20) not null,
   primary key (cpf),
@@ -43,8 +43,8 @@ CREATE TABLE pessoa(
 
 CREATE TABLE exame(
   codexame INTEGER,
-  cpfpaciente NUMERIC(9)not null, 
-  cpfprofissionalresponsavel NUMERIC(9) not null,
+  cpfpaciente CHAR(11) not null, 
+  cpfprofissionalresponsavel CHAR(11) not null,
   datarealizacao DATE,
   dataestimadaentrega DATE,
   codtipoexame INTEGER not null,
