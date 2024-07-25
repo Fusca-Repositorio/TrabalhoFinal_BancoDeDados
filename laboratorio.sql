@@ -46,7 +46,7 @@ CREATE TABLE exame(
   cpfpaciente CHAR(11) not null, 
   cpfprofissionalresponsavel CHAR(11) not null,
   datarealizacao DATE,
-  dataestimadaentrega DATE,
+  dataentrega DATE,
   codtipoexame INTEGER not null,
   descricaoresultado VARCHAR (200), 
   primary key(codexame),
