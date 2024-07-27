@@ -1,135 +1,162 @@
-DROP SCHEMA IF EXISTS laboratorio;
-CREATE SCHEMA laboratorio;
+-- Integrantes do grupo: Amanda, Betinne, Carlise e Isadora
+drop schema if exists laboratorio;
+CREATE SCHEMA laboratorio;use laboratorio;
 
-use laboratorio;
+CREATE TABLE tipo_exame(
+codtipoexame INTEGER,
+nome VARCHAR(100) not null,
+descricao VARCHAR(500),
+primary key (codtipoexame)
+);
+
 
 CREATE TABLE departamento(
-  coddepartamento INTEGER,
-  nome VARCHAR(30) not null,
-  cpfgerente NUMERIC(9) not null, 
-  primary key (coddepartamento)
+coddepartamento INTEGER,
+nome VARCHAR(30) not null,
+cpfgerente CHAR(11) not null,
+primary key (coddepartamento)
 );
 
 CREATE TABLE funcionario(
-  cpf NUMERIC(9) not null,
-  nome VARCHAR(200) not null,
-  datanascimento DATE,
-  cargo VARCHAR(50) not null,
-  genero VARCHAR(20), 
-  salario NUMERIC(5) not null,
-  endereco VARCHAR(100) not null,
-  coddepartamento INTEGER,
-  primary key (cpf),
-  foreign key (coddepartamento) references departamento(coddepartamento)
+cpf CHAR(11) not null,
+nome VARCHAR(200) not null,
+datanascimento DATE,
+cargo VARCHAR(50) not null,
+genero VARCHAR(20),
+salario NUMERIC(5) not null,
+endereco VARCHAR(100) not null,
+coddepartamento	 INTEGER,
+primary key (cpf),
+foreign key (coddepartamento) references departamento(coddepartamento)
 );
 
 CREATE TABLE pessoa(
-  cpf NUMERIC(9) not null,
-  nome VARCHAR(200) not null,
-  datanascimento DATE,
-  cpfresponsavel integer(9),
-  sexo CHAR(1) not null,
-  telefone VARCHAR(20) not null,
-  primary key (cpf)
-);
-
-CREATE TABLE tipo_exame(
-  codtipoexame INTEGER,
-  nome VARCHAR(100) not null,
-  descricao VARCHAR(500),
-  primary key (codtipoexame)
+cpf CHAR(11) not null,
+nome VARCHAR(200) not null,
+datanascimento DATE,
+cpfresponsavel CHAR(11),
+sexo CHAR(1) not null,
+telefone VARCHAR(20) not null,
+primary key (cpf),
+foreign key (cpfresponsavel) references pessoa(cpf)
 );
 
 CREATE TABLE exame(
-  codexame INTEGER,
-  cpfpaciente NUMERIC(9)not null, 
-  cpfprofissionalresponsavel NUMERIC(9) not null,
-  datarealizacao DATE,
-  dataestimadaentrega DATE,
-  codtipoexame INTEGER not null,
-  descricaoresultado VARCHAR (200), 
-  primary key(codexame),
-  foreign key (cpfpaciente) references pessoa(cpf), 
-  foreign key (cpfprofissionalresponsavel) references funcionario(cpf),
-  foreign key (codtipoexame) references tipo_exame(codtipoexame)
+codexame INTEGER,
+cpfpaciente CHAR(11) not null,
+cpfprofissionalresponsavel CHAR(11) not null,
+datarealizacao DATE,
+analiseterminadaem DATE,
+codtipoexame INTEGER not null,
+descricaoresultado VARCHAR (200),
+primary key(codexame),
+foreign key (cpfpaciente) references pessoa(cpf),
+foreign key (cpfprofissionalresponsavel) references funcionario(cpf),
+foreign key (codtipoexame) references tipo_exame(codtipoexame)
 );
 
 INSERT INTO departamento (coddepartamento, nome, cpfgerente) VALUES
-(1, 'Hematologia', '123456706'),
-(2, 'Uroanálise', '123456704'),
-(3, 'Parasitologia', '123456708'),
-(4, 'Endocrinologia', '123456707'),
-(5, 'Gerência', '123456705');
+(1, 'Hematologia', '12345678906'),
+(2, 'Uroanálise', '12345678904'),
+(3, 'Parasitologia', '12345678908'),
+(4, 'Endocrinologia', '12345678907'),
+(5, 'Gerência', '12345678905');
 
-INSERT INTO funcionario (cpf, nome, datanascimento, cargo, genero, salario, endereco, coddepartamento)VALUES
-('123456701', 'Alberto Rodrigues', '1974-04-06', 'Auxiliar', 'Masculino', '14000', 'Rua da República, 321 - Porto Alegre', '1'),
-('123456702', 'Bruna Soares','1993-09-08', 'Auxiliar', 'Feminino', '14000', 'Rua Dona Laura, 890 - Porto Alegre', '2'),
-('123456703','José da Silva','1979-07-07', 'Farmacêutico', 'Masculino', '15000', 'Avenida Protásio Alves, 2345 - Porto Alegre', '3'),
-('123456704', 'Camila Rodrigues', '1999-06-01', 'Biomédico', 'Feminino', '27000', 'Rua Padre Chagas, 432 - Porto Alegre', '2'),
-('123456705', 'Márcia Furtado', '1986-12-12', 'Atendente', 'Feminino', '6000', 'Rua Vieira de Castro, 567 - Porto Alegre', '5'),
-('123456706', 'Júlio Lima', '1991-10-03', 'Biomédico', 'Masculino', '16000', 'Rua Barão do Amazonas, 350 - Porto Alegre', '1'),
-('123456707', 'Paula Marques', '1980-05-02', 'Farmacêutico', 'Feminino', '20000', 'Avenida Assis Brasil, 4500 - Porto Alegre', '4'),
-('123456708', 'Silvana Nunes', '1984-01-13', 'Biomédico', 'Feminino', '22000', 'Avenida Bento Gonçalves, 3000  - Porto Alegre', '3'),
-('123456709', 'Vagner Moura', '1980-02-24','Farmacêutico', 'Masculino', '18000', 'Rua Luciana de Abreu, 700 - Porto Alegre', '4');
+INSERT INTO funcionario (cpf, nome, datanascimento, cargo, genero, salario, endereco, coddepartamento) VALUES
+('12345678901', 'Alberto Rodrigues', '1974-04-06', 'Auxiliar', 'Masculino', '14.000', 'Rua da República, 321 - Porto Alegre', '1'),
+('12345678902', 'Bruna Soares','1993-09-08', 'Auxiliar', 'Feminino', '14.000', 'Rua Dona Laura, 890 - Porto Alegre', '2'),
+('12345678903','José da Silva','1979-07-07', 'Farmacêutico', 'Masculino', '15.000', 'Avenida Protásio Alves, 2345 - Porto Alegre', '3'),
+('12345678904', 'Camila Rodrigues', '1999-06-01', 'Biomédico', 'Feminino', '27.000', 'Rua Padre Chagas, 432 - Porto Alegre', '2'),
+('12345678905', 'Márcia Furtado', '1986-12-12', 'Atendente', 'Feminino', '6.000', 'Rua Vieira de Castro, 567 - Porto Alegre', '5'),
+('12345678906', 'Júlio Lima', '1991-10-03', 'Biomédico', 'Masculino', '16.000', 'Rua Barão do Amazonas, 350 - Porto Alegre', '1'),
+('12345678907', 'Paula Marques', '1980-05-02', 'Farmacêutico', 'Feminino', '20.000', 'Avenida Assis Brasil, 4500 - Porto Alegre', '4'),
+('12345678908', 'Silvana Nunes', '1984-01-13', 'Biomédico', 'Feminino', '22.000', 'Avenida Bento Gonçalves, 3000  - Porto Alegre', '3'),
+('12345678909', 'Vagner Moura', '1980-02-24','Farmacêutico', 'Masculino', '18.000', 'Rua Luciana de Abreu, 700 - Porto Alegre', '4');
 
 INSERT INTO tipo_exame (codtipoexame, nome, descricao) VALUES
 (1, 'Hemograma', 'Verificar a quantidade de plaquetas, glóbulos brancos e vermelhos, conseguindo evidenciar anemias, leucemias, e muitas infecções'),
 (2, 'Colesterol', 'Averiguar os valores de colesterol dos tipos LDL, VLDL e HDL'),
 (3, 'Ácido úrico', 'Análise do nível de ácido úrico no sangue, que em níveis elevados podem indicar problemas envolvendo o funcionamento dos rins'),
 (4, 'Glicose', 'Avalia a quantidade de açúcar no sangue (glicemia)'),
-(5, 'T4 Livre e TSH',  'Analisam o funcionamento da tireoide'),
+(5, 'T4 Livre e TSH', 'Analisam o funcionamento da tireoide'),
 (6, 'Fezes', 'Verificar a presença de parasitas no organismo');
 
-
 INSERT INTO pessoa (cpf, nome, datanascimento, cpfresponsavel, sexo, telefone) VALUES
-('123456710', 'Ana Gonçalves', '1998-08-08', null, 'F', '11112222'),
-('123456711', 'Joaquim Santos', '1988-11-21', null, 'M', '11113333'),
-('123456712', 'Amarildo Silva', '1977-04-01', null, 'M', '11114444'),
-('123456713', 'Gabriel Barbosa', '2010-03-21', '123456720', 'M', '11115555'),
-('123456714', 'Fernanda Welter', '2009-03-04', '123456721', 'F', '11116666'),
-('123456715', 'Enzo Ferrari', '2005-05-07', null, 'M', '11117777');
+('12345678910', 'Ana Gonçalves', '1998-08-08', null, 'F', '11112222'),
+('12345678911', 'Joaquim Santos', '1988-11-21', null, 'M', '11113333'),
+('12345678912', 'Amarildo Silva', '1977-04-01', null, 'M', '11114444'),
+('12345678920', 'Joana Barbosa', '1990-03-12', null, 'F', '11116666'),
+('12345678913', 'Gabriel Barbosa', '2010-03-21', 12345678920, 'M', ''),
+('12345678921', 'Luiz Welter', '1985-12-25', null, 'M', '11116666'),
+('12345678914', 'Fernanda Welter', '2009-03-04', 12345678921, 'F', ''),
+('12345678915', 'Enzo Ferrari', '2005-05-07', null, 'M', '11117777');
 
-INSERT INTO exame (codexame, cpfpaciente, cpfprofissionalresponsavel, datarealizacao, dataestimadaentrega, codtipoexame, descricaoresultado) VALUES
-(1, '123456710', '123456704', '2024-07-18', '2024-07-23', 6,  'Presença de parasitas'),
-(2, '123456711', '123456708', '2024-07-18', '2024-07-24', 6,  'Presença de parasitas'), 
-(3, '123456712', '123456707', '2024-07-18', '2024-07-22', 4, 'Níveis normais'),
-(4, '123456713',  '123456706', '2024-07-19', '2024-07-29', 1, 'Baixo número de plaquetas e glóbulos brancos'),
-(5, '123456714', '123456701', '2024-07-19', '2024-07-25', 1, 'Níveis normais'),
-(6, '123456715',  '123456709', '2024-07-22', '2024-07-29', 5, 'Níveis normais' );
-
-
-select cpf, nome
-from pessoa p
-inner join exame e on p.cpf= e.cpfpaciente
-where e.dataestimadaentrega < curdate();
-
-select nome, cpf, telefone from pessoa p where
-cpf = (select cpf from pessoa where cpfresponsavel is not null);
-
-select f.nome as nomefuncionario, te.nome as tipoexame, count(*) contador
-from exame e inner join funcionario f on f.cpf = e.cpfprofissionalresponsavel
-inner join tipo_exame te on te.codtipoexame = e.codtipoexame
-group by e.cpfprofissionalresponsavel, te.nome
-having count(*) > 2;
-
-
--- juncao externa
-
-select p.nome from pessoa p left outer join exame e on p.cpf = e.cpfpaciente
-where e.dataestimadaentrega > curdate();
-
--- agrupamento e having
-
-select d.coddepartamento as departamento, avg(salario) as mediasalario
-from funcionario f
-inner join departamento d on d.nome = f.nome
-group by d.coddepartamento
-having mediasalario > 10.000;
-
-select e.descricaoresultado
-from
-inner join  on  = 
-group by
-having ;
-
--- contar os resultados dos exames, quantas vezes ocorreu cada tipo, dados/ indicadores sociais
+ INSERT INTO exame (codexame, cpfpaciente, cpfprofissionalresponsavel, datarealizacao, analiseterminadaem, codtipoexame, descricaoresultado) VALUES
+ (1, '12345678910', '12345678904', '2024-07-18', '2024-07-23', 6,'Presença de parasitas'),
+ (2, '12345678911', '12345678908', '2024-07-18', '2024-07-24', 6,'Presença de parasitas'),
+ (3, '12345678912', '12345678907', '2024-07-18', '2024-07-22', 4, 'Níveis normais'),
+ (4, '12345678913','12345678906', '2024-07-19', '2024-07-24', 1, 'Baixo número de plaquetas e glóbulos brancos'),
+ (5, '12345678914', '12345678901', '2024-07-19','2024-07-25', 1, 'Níveis normais'),
+ (6, '12345678915','12345678909', '2024-07-22', '2024-07-23', 5, 'Níveis normais'),
+ (7, '12345678914','12345678909', '2024-07-15', null, 5, null),
+ (8, '12345678914','12345678909', '2024-05-15', null, 5, null),
+ (9, '12345678911','12345678909', '2024-07-25', null, 5, null);
+ 
+ -- SELECTS --
+ 
+ -- Justificativa: com essa query é possível apresentar
+ -- os dados de pacientes cujos exames já estão prontos
+ -- Útil para verificar quais os exames que já estão prontos
+ 
+ select e.codexame codigoExame, cpf as cpfpaciente, nome as nomepaciente
+ from pessoa p
+ inner join exame e on p.cpf = e.cpfpaciente
+ where e.analiseterminadaem is not null;
+ 
+ 
+ -- Justificativa: apresenta os funcionarios que já estão responsaveis
+ -- por mais de 2 exames. Com essa query é possível verificar se um funcionário já tem
+ -- muitos exames sob sua responsabilidade no momento
+ 
+ select f.nome as nomefuncionario, count(*) numeroexames
+ from exame e inner join funcionario f on f.cpf = e.cpfprofissionalresponsavel
+ where e.analiseterminadaem is null
+ group by e.cpfprofissionalresponsavel
+ having count(*) > 2;
+ 
+ 
+ -- Justificativa: apresenta os gerentes que ganham menos
+ -- que pelo menos um dos funcionários não gerentes
+ -- Útil na avaliação dos salários dos gerentes, se é necessário aumentar
+ 
+ select f.nome, cargo, salario 
+ from funcionario f
+ inner join departamento d on d.cpfgerente = f.cpf
+ where salario <(select max(salario)
+ from funcionario f
+ left outer join departamento d on f.cpf = d.cpfgerente
+ where d.cpfgerente is null);
+ 
+ 
+ -- Justificativa: apresenta apenas os funcionários que não são gerentes
+ -- de departamento, pode ser utilizado para verificar qual as permissões de sistema
+ -- que o funcionário pode ter, por exemplo
+ 
+ SELECT f.nome, f.cpf
+ FROM funcionario f
+ LEFT OUTER JOIN departamento d ON f.cpf = d.cpfgerente
+ where d.cpfgerente is null;
+ 
+ 
+ -- Justificativa: a query apresenta quantos exames de um mesmo tipo
+ -- foram realizados nos últimos 30 dias, agrupados por dia
+ -- Essa informação pode ser usada para projetar a compra de materiais futuros, por exemplo,
+ -- ou verificar em que períodos normalmente há mais pacientes,
+ -- quais os exames mais frequentes, etc
+ 
+ select te.nome tipoexame, count(*) quantidadeExame, e.datarealizacao
+ from tipo_exame te
+ inner join exame e on e.codtipoexame = te.codtipoexame
+ group by te.nome, e.datarealizacao
+ having e.datarealizacao >= curdate() - 30;
+ 
